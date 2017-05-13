@@ -1,0 +1,20 @@
+INDEX VERSION 1.130+D:\Users\Tyler\Documents\Programming\Java\2D_RPG\.metadata\.plugins\org.eclipse.jdt.core
+3268378490.index
+3063770743.index
+1830705865.index
+1469438696.index
+2935742717.index
+2434965513.index
+4169493981.index
+2913192835.index
+2239178374.index
+3633667703.index
+2930244957.index
+500954455.index
+1900172487.index
+655184500.index
+1901169444.index
+125500583.index
+2866833018.index
+2096465751.index
+2364136359.index
