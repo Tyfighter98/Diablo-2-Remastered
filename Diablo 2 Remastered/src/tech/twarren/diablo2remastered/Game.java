@@ -1,12 +1,12 @@
 package tech.twarren.diablo2remastered;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 import tech.twarren.diablo2remastered.display.Display;
 import tech.twarren.diablo2remastered.gfx.ImageLoader;
+import tech.twarren.diablo2remastered.gfx.SpriteSheet;
 
 public class Game implements Runnable {
 	
@@ -18,11 +18,8 @@ public class Game implements Runnable {
 	private Graphics g;
 	
 	private BufferedImage link;
-	private BufferedImage grass1;
-	private BufferedImage grass2;
-	private BufferedImage grass3;
-	private BufferedImage grass4;
-	private BufferedImage grass;
+	private BufferedImage terrain;
+	private SpriteSheet sheet;
 	
 	public int width, height;
 	public String title;
@@ -36,11 +33,8 @@ public class Game implements Runnable {
 	private void init() {
 		display = new Display(title, width, height);
 		link = ImageLoader.loadImage("/textures/link.png");
-		grass1 = ImageLoader.loadImage("/textures/grass1.png");
-		grass2 = ImageLoader.loadImage("/textures/grass2.png");
-		grass3 = ImageLoader.loadImage("/textures/grass3.png");
-		grass4 = ImageLoader.loadImage("/textures/grass4.png");
-		grass = ImageLoader.loadImage("/textures/grass.png");
+		terrain = ImageLoader.loadImage("/textures/terrain_sprite_sheet.png");
+		sheet = new SpriteSheet(terrain);
 	}
 	
 	private void tick() {
@@ -61,10 +55,7 @@ public class Game implements Runnable {
 		g.clearRect(0, 0, width, height);
 		
 		// Draw here!
-		g.drawImage(grass1, imageCenter(108), imageCenter(54), null);
-		g.drawImage(grass2, imageCenter(0), imageCenter(54), null);
-		g.drawImage(grass3, imageCenter(108), imageCenter(0), null);
-		g.drawImage(grass4, imageCenter(0), imageCenter(0), null);
+		g.drawImage(sheet.crop(0, 0, 45, 45), 0, 0, null);
 		g.drawImage(link, imageCenter(66), imageCenter(84), null);
 		
 		// Push to screen
