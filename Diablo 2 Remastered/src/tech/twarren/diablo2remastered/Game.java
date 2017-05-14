@@ -55,8 +55,27 @@ public class Game implements Runnable {
 		g.clearRect(0, 0, width, height);
 		
 		// Draw here!
-		g.drawImage(sheet.crop(0, 0, 45, 45), 0, 0, null);
-		g.drawImage(link, imageCenter(66), imageCenter(84), null);
+		g.fillRect(0, 0, width, height);
+		// (0,0) is diagonal down-right from the center of the window
+		// Each tile is a unit of 1
+		// x & y are treated positive/negative respective to origin and acts like a standard graph
+		g.drawImage(sheet.crop(1, 0, 45, 45), imageCenterX(0), imageCenterY(0), null);
+		g.drawImage(sheet.crop(1, 1, 45, 45), imageCenterX(-1), imageCenterY(0), null);
+		g.drawImage(sheet.crop(0, 1, 45, 45), imageCenterX(-2), imageCenterY(0), null);
+		g.drawImage(sheet.crop(1, 1, 45, 45), imageCenterX(-1), imageCenterY(-1), null);
+		g.drawImage(sheet.crop(0, 1, 45, 45), imageCenterX(-2), imageCenterY(-1), null);
+		g.drawImage(sheet.crop(1, 1, 45, 45), imageCenterX(-1), imageCenterY(-2), null);
+		g.drawImage(sheet.crop(0, 1, 45, 45), imageCenterX(-2), imageCenterY(-2), null);
+		g.drawImage(sheet.crop(0, 0, 45, 45), imageCenterX(-1), imageCenterY(1), null);
+		g.drawImage(sheet.crop(1, 0, 45, 45), imageCenterX(0), imageCenterY(1), null);
+		g.drawImage(sheet.crop(1, 0, 45, 45), imageCenterX(-2), imageCenterY(1), null);
+		g.drawImage(sheet.crop(3, 1, 45, 45), imageCenterX(0), imageCenterY(-1), null);
+		g.drawImage(sheet.crop(3, 1, 45, 45), imageCenterX(0), imageCenterY(-2), null);
+		g.drawImage(sheet.crop(3, 1, 45, 45), imageCenterX(1), imageCenterY(-1), null);
+		g.drawImage(sheet.crop(3, 1, 45, 45), imageCenterX(1), imageCenterY(-2), null);
+		g.drawImage(sheet.crop(1, 0, 45, 45), imageCenterX(1), imageCenterY(0), null);
+		g.drawImage(sheet.crop(1, 0, 45, 45), imageCenterX(1), imageCenterY(1), null);
+		g.drawImage(link, (width/2)-33, (height/2)-42, null);
 		
 		// Push to screen
 		bs.show();
@@ -102,8 +121,13 @@ public class Game implements Runnable {
 		}
 	}
 	
-	private int imageCenter(int size) {
-		int location = (width/2)-(size/2);
+	private int imageCenterX(int size) {
+		int location = (width/2)-(-size*45);
+		return location;
+	}
+	
+	private int imageCenterY(int size) {
+		int location = (height/2)-(size*45);
 		return location;
 	}
 
