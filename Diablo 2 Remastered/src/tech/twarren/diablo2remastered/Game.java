@@ -5,6 +5,9 @@ import java.awt.image.BufferStrategy;
 
 import tech.twarren.diablo2remastered.display.Display;
 import tech.twarren.diablo2remastered.gfx.Assets;
+import tech.twarren.diablo2remastered.input.KeyManager;
+import tech.twarren.diablo2remastered.states.State;
+import tech.twarren.diablo2remastered.states.GameState;
 
 public class Game implements Runnable {
 	
@@ -18,15 +21,28 @@ public class Game implements Runnable {
 	public int width, height;
 	public String title;
 	
+	// States
+	private State gameState;
+	private State menuState;
+	
+	private KeyManager keyManager;
+	
+	
 	public Game(String title, int width, int height) {
 		this.width = width;
 		this.height = height;
 		this.title = title;
+		keyManager = new KeyManager();
 	}
 
 	private void init() {
 		display = new Display(title, width, height);
+		display.getFrame().addKeyListener(keyManager);
 		Assets.init();
+		
+		gameState = new GameState(this);
+		menuState = new GameState(this);
+		State.setState(gameState);
 	}
 	
 	// Called after thread is started
@@ -40,36 +56,28 @@ public class Game implements Runnable {
 		double delta = 0;
 		long now;
 		long lastTime = System.nanoTime();
-		long timer = 0;
-		int ticks = 0;
 		
 		while (isRunning) {
 			now = System.nanoTime();
 			delta += (now- lastTime) / timePerTick;
-			timer += now - lastTime;
 			lastTime = now;
 			
 			if (delta >= 1) {
 				tick();
 				render();
-				ticks++;
 				delta--;
 			}	
-			
-			if (timer >= 1000000000) {
-				System.out.println("Ticks and Frames: " + ticks);
-				ticks = 0;
-				timer = 0;
-			}
 		}
 		
 		stop();
 	}
 	
-	int x = 0;
-	
 	private void tick() {
-		x += 1;
+		keyManager.tick();
+		
+		if (State.getState() != null) {
+			State.getState().tick();
+		}
 	}
 	
 	private void render() {
@@ -85,10 +93,11 @@ public class Game implements Runnable {
 		// Clear Screen
 		g.clearRect(0, 0, width, height);
 		
+		if (State.getState() != null) {
+			State.getState().render(g);
+		}
+		
 		// Draw here!
-		g.drawImage(Assets.grass, x, coord(0), null);
-		g.drawImage(Assets.dirt, coord(1), coord(0), null);
-		g.drawImage(Assets.player, (width/2)-36, (height/2)-36, null);
 		
 		// Push to screen
 		bs.show();
@@ -120,8 +129,8 @@ public class Game implements Runnable {
 		}
 	}
 	
-	public int coord (int coordinate) {
-		int location = coordinate * 45;
-		return location;
+	public KeyManager getKeyManager() {
+		return keyManager;
 	}
+	
 }
