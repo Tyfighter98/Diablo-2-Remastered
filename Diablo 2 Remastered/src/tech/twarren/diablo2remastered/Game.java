@@ -29,8 +29,47 @@ public class Game implements Runnable {
 		Assets.init();
 	}
 	
-	private void tick() {
+	// Called after thread is started
+	// Majority of code goes here
+	public void run() {
 		
+		init();
+		
+		int fps = 60;
+		double timePerTick = 1000000000 / fps;
+		double delta = 0;
+		long now;
+		long lastTime = System.nanoTime();
+		long timer = 0;
+		int ticks = 0;
+		
+		while (isRunning) {
+			now = System.nanoTime();
+			delta += (now- lastTime) / timePerTick;
+			timer += now - lastTime;
+			lastTime = now;
+			
+			if (delta >= 1) {
+				tick();
+				render();
+				ticks++;
+				delta--;
+			}	
+			
+			if (timer >= 1000000000) {
+				System.out.println("Ticks and Frames: " + ticks);
+				ticks = 0;
+				timer = 0;
+			}
+		}
+		
+		stop();
+	}
+	
+	int x = 0;
+	
+	private void tick() {
+		x += 1;
 	}
 	
 	private void render() {
@@ -47,7 +86,7 @@ public class Game implements Runnable {
 		g.clearRect(0, 0, width, height);
 		
 		// Draw here!
-		g.drawImage(Assets.grass, coord(0), coord(0), null);
+		g.drawImage(Assets.grass, x, coord(0), null);
 		g.drawImage(Assets.dirt, coord(1), coord(0), null);
 		g.drawImage(Assets.player, (width/2)-36, (height/2)-36, null);
 		
@@ -55,20 +94,6 @@ public class Game implements Runnable {
 		bs.show();
 		g.dispose();
 		
-	}
-	
-	// Called after thread is started
-	// Majority of code goes here
-	public void run() {
-		
-		init();
-		
-		while (isRunning) {
-			tick();
-			render();	
-		}
-		
-		stop();
 	}
 	
 	// synchronized is used with threads
@@ -95,7 +120,7 @@ public class Game implements Runnable {
 		}
 	}
 	
-	public int coord(int coordinate) {
+	public int coord (int coordinate) {
 		int location = coordinate * 45;
 		return location;
 	}
