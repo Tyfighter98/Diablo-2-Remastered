@@ -7,7 +7,7 @@ public class Assets {
 	private static final int tWidth = 45, tHeight = 45;
 	private static final int zWidth = 72, zHeight = 72;
 	
-	public static BufferedImage player, dirt, grass, flower;
+	public static BufferedImage player, dirt, grass, flower, stonePath;
 	
 	// Loads in assets to the game
 	public static void init() {
@@ -19,6 +19,7 @@ public class Assets {
 		dirt = terrain.crop(4 * tWidth, tHeight, tWidth, tHeight);
 		grass = terrain.crop(tWidth, 0, tWidth, tHeight);
 		flower = terrain.crop(2 * tWidth, 0, tWidth, tHeight);
+		stonePath = terrain.crop(0, tHeight, 2 * tWidth, tHeight);
 	}
 
 }
