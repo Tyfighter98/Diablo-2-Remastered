@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import tech.twarren.diablo2remastered.Game;
 import tech.twarren.diablo2remastered.entities.creatures.Player;
 import tech.twarren.diablo2remastered.gfx.Assets;
+import tech.twarren.diablo2remastered.tiles.Tile;
 
 public class GameState extends State{
 
@@ -26,6 +27,7 @@ public class GameState extends State{
 	BufferedImage terrain = Assets.grass;
 	
 	public void render(Graphics g) {
+		Tile.tiles[2].render(g, 0, 0);
 		player.render(g);
 	}
 }

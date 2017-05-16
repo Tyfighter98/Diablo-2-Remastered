@@ -25,9 +25,4 @@ public abstract class State {
 		return currentState;
 	}
 	
-	public static int coord (int coordinate) {
-		int location = coordinate * 45;
-		return location;
-	}
-	
 }
